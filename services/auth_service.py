@@ -8,10 +8,10 @@ def login(db: Session, email: str, password: str):
     user = db.query(User).filter(User.email == email).first()
 
     if not user:
-        raise HTTPException(status_code=401, detail="Email atau password salah")
+        raise HTTPException(status_code=401, detail="Email or password invalid")
 
     if not verify_pw(password, user.password):
-        raise HTTPException(status_code=401, detail="Email atau password salah")
+        raise HTTPException(status_code=401, detail="Email or password invalid")
 
     payload = {
         "sub": str(user.id),
