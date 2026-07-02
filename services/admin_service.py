@@ -26,7 +26,6 @@ def get_all_mentors(db: Session, pagination):
 
 
 def create_mentor(db: Session, data):
-    # cek email duplikat
     existing = db.query(User).filter(User.email == data.email).first()
     if existing:
         raise HTTPException(status_code=400, detail="Email already registered")

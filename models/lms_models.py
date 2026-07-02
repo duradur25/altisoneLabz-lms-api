@@ -3,6 +3,17 @@ from database.config import engine
 from database.config import Base
 from sqlalchemy import String, Integer, Column, ForeignKey, Enum, DateTime, Date, Text
 
+class User(Base):
+    __tablename__ = "users"
+
+    id = Column(Integer, primary_key=True, index=True)
+    name = Column(String(100), nullable=False)
+    email = Column(String(100), unique=True, nullable=False)
+    password = Column(String(255), nullable=False)
+    role = Column(Enum("admin", "mentor"), nullable=False)
+
+    mentor = relationship("Mentor", back_populates="user", uselist=False)
+
 
 class Student(Base):
     __tablename__ = "students"
@@ -33,17 +44,6 @@ class Mentor(Base):
     students = relationship("Student", back_populates="mentor")
     assignments = relationship("Assignment", back_populates="mentor")
 
-
-class User(Base):
-    __tablename__ = "users"
-
-    id = Column(Integer, primary_key=True, index=True)
-    name = Column(String(100), nullable=False)
-    email = Column(String(100), unique=True, nullable=False)
-    password = Column(String(255), nullable=False)
-    role = Column(Enum("admin", "mentor"), nullable=False)
-
-    mentor = relationship("Mentor", back_populates="user", uselist=False)
 
 
 class Batch(Base):
